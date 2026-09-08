@@ -1,0 +1,36 @@
+/* app/globals.css — se importa una sola vez en app/layout.tsx */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #080b14;
+  --navy: #0b1330;
+  --blue: #2657ff;
+  --blue-deep: #1a3fcc;
+  --blue-tint: #eaefff;
+  --paper: #f6f7fb;
+  --card: #ffffff;
+  --line: #e3e6ef;
+  --line-strong: #c7ccdc;
+  --ink-soft: #6b7080;
+  --amber: #e08a2e;
+  --amber-tint: #fbebd6;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+@layer components {
+  .input {
+    @apply rounded-md border border-[var(--line-strong)] bg-[var(--card)] px-3 py-2 text-sm outline-none;
+  }
+  .input:focus {
+    @apply border-[var(--blue)];
+  }
+  .label {
+    @apply mb-1 block text-xs font-medium text-[var(--ink-soft)];
+  }
+}

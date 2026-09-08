@@ -48,10 +48,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     // cambio de rol hecho desde /admin surta efecto sin esperar a que
     // expire la sesión.
     async jwt({ token, user, trigger }) {
-      if (user) {
-        token.id = user.id as string;
-        token.role = (user as { role: string }).role;
-      }
+      if (usuario) {
+  token.id = usuario.id as string;
+  token.role = (usuario as {
+    role: "CUSTOMER" | "ADMIN" | "SUPER_ADMIN";
+  }).role;
+}
 
       if (trigger === "update" || !token.role) {
         const dbUser = await prisma.user.findUnique({

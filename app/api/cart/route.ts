@@ -35,23 +35,33 @@ export const POST = withErrorHandling(async (req) => {
 
   const cart = await getOrCreateCart(user.id);
 
-  const item = await prisma.cartItem.upsert({
-    where: {
-      cartId_productId_variantId: {
-        cartId: cart.id,
-        productId: body.productId,
-        variantId: body.variantId,
-      },
+const existingItem = await prisma.cartItem.findFirst({
+  where: {
+    cartId: cart.id,
+    productId: body.productId,
+    variantId: body.variantId ?? null,
+  },
+});
+
+let item;
+
+if (existingItem) {
+  item = await prisma.cartItem.update({
+    where: { id: existingItem.id },
+    data: {
+      quantity: { increment: body.quantity },
     },
-    update: { quantity: { increment: body.quantity } },
-    create: {
+  });
+} else {
+  item = await prisma.cartItem.create({
+    data: {
       cartId: cart.id,
       productId: body.productId,
-      variantId: body.variantId,
+      variantId: body.variantId ?? null,
       quantity: body.quantity,
     },
   });
-
+}
   return created(item);
 });
 

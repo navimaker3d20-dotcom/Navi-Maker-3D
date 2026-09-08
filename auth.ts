@@ -49,7 +49,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     // expire la sesión.
     async jwt({ token, user, trigger }) {
       if (user) {
-        token.id = user.id;
+        token.id = user.id as string;
         token.role = (user as { role: string }).role;
       }
 

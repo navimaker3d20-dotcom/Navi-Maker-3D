@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import { verifyPassword } from "@/lib/password";
 import { loginSchema } from "@/schemas/auth.schema";
@@ -9,7 +8,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   // El adapter queda listo para agregar providers OAuth (Google, etc.) más
   // adelante. Con Credentials, la sesión igual se maneja por JWT (ver abajo),
   // no por sesiones de base de datos.
-  adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   pages: {
     signIn: "/cuenta/login",

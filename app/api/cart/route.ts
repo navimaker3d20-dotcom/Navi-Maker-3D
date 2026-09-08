@@ -40,7 +40,7 @@ export const POST = withErrorHandling(async (req) => {
       cartId_productId_variantId: {
         cartId: cart.id,
         productId: body.productId,
-        variantId: body.variantId ?? null,
+        variantId: body.variantId,
       },
     },
     update: { quantity: { increment: body.quantity } },

@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import type { Prisma } from "@prisma/client";
 
-const PAID_STATUSES: Prisma.OrderStatus[] = [
+const PAID_STATUSES = [
   "PAYMENT_APPROVED",
   "IN_PREPARATION",
   "IN_PRODUCTION",
@@ -89,7 +88,6 @@ export async function getDashboardMetrics() {
     pendingOrdersCount,
     averageTicketCents,
     recentOrders,
-
     topProducts: topProducts.map((p) => ({
       productId: p.productId,
       name: p.productNameSnapshot,

@@ -1,12 +1,5 @@
 import { prisma } from "@/lib/prisma";
 
-const PAID_STATUSES = [
-  "PAYMENT_APPROVED",
-  "IN_PREPARATION",
-  "IN_PRODUCTION",
-  "SHIPPED",
-  "DELIVERED",
-] as const;
 
 export async function getDashboardMetrics() {
   const [
@@ -19,8 +12,14 @@ export async function getDashboardMetrics() {
     prisma.order.aggregate({
       where: {
         status: {
-          in: PAID_STATUSES,
-        },
+  in: [
+    "PAYMENT_APPROVED",
+    "IN_PREPARATION",
+    "IN_PRODUCTION",
+    "SHIPPED",
+    "DELIVERED",
+  ],
+},
       },
       _sum: {
         totalCents: true,
@@ -28,12 +27,18 @@ export async function getDashboardMetrics() {
     }),
 
     prisma.order.count({
-      where: {
-        status: {
-          in: PAID_STATUSES,
-        },
-      },
-    }),
+  where: {
+    status: {
+      in: [
+        "PAYMENT_APPROVED",
+        "IN_PREPARATION",
+        "IN_PRODUCTION",
+        "SHIPPED",
+        "DELIVERED",
+      ],
+    },
+  },
+}),
 
     prisma.order.count({
       where: {
